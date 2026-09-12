@@ -1,0 +1,41 @@
+{
+  "name": "@cleanchain/sdk",
+  "version": "1.0.0",
+  "description": "SDK officiel CleanChain — scoring de sécurité et conformité blockchain (Bitcoin, Ethereum, Solana).",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/basic.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "cleanchain",
+    "blockchain",
+    "conformite",
+    "aml",
+    "kyc",
+    "scoring",
+    "bitcoin",
+    "ethereum",
+    "solana"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cleanchain"
+version = "1.0.0"
+description = "SDK officiel CleanChain — scoring de sécurité et conformité blockchain (Bitcoin, Ethereum, Solana)."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "CleanChain SAS", email = "sdk@cleanchain.io" }]
+keywords = ["cleanchain", "blockchain", "conformite", "aml", "kyc", "scoring", "bitcoin", "ethereum", "solana"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = ["httpx>=0.24"]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "pytest-asyncio>=0.21"]
+
+[project.urls]
+Homepage = "https://github.com/urbanyl/cleanchain"
+Documentation = "https://github.com/urbanyl/cleanchain/blob/main/README.md"
+Repository = "https://github.com/urbanyl/cleanchain"
+
+[tool.setuptools.packages.find]
+include = ["cleanchain*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
