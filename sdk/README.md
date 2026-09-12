@@ -7,7 +7,7 @@ blockchain (Bitcoin, Ethereum, Solana).
 |---|---|---|
 | Python | `cleanchain` | `pip install cleanchain` |
 | Node.js / JavaScript | `@cleanchain/sdk` | `npm install @cleanchain/sdk` |
-| Go | `github.com/urbanyl/cleanchain/sdk/go` | `go get github.com/urbanyl/cleanchain/sdk/go@latest` |
+| Go | `github.com/urbanyl/cleanchain/sdk/go` | `go get github.com/urbanyl/cleanchain/sdk/go@v1.0.0` |
 
 ## Démarrage rapide
 

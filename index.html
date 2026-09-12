@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CleanChain — Conformité et traçage des fonds numériques pour entreprises</title>
+  <meta name="description" content="CleanChain trace l'origine des fonds crypto, détecte les arnaques, les fonds volés et les entités sanctionnées, et attribue un score de sécurité dynamique à chaque adresse." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230A0A0A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='8.5' width='8' height='7' rx='1.4'/%3E%3Crect x='12.5' y='8.5' width='8' height='7' rx='1.4'/%3E%3Cpath d='M11.5 12h1'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] } } } };
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="antialiased">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero container-x">
+    <div class="hero-status reveal in">
+      <span class="dot dot-pulse" style="background:var(--green)"></span>
+      SOC 2 type II · ISO 27001 · Données chiffrées de bout en bout
+    </div>
+    <h1 class="hero-title reveal in">
+      La conformité blockchain,<br>
+      tranchée avant chaque transaction.
+    </h1>
+    <p class="lede reveal in" style="max-width:640px;margin-top:2rem">
+      CleanChain trace l'origine des fonds d'une adresse Bitcoin, Ethereum ou Solana,
+      détecte les arnaques, les fonds volés et les entités sanctionnées, puis attribue un
+      score de sécurité dynamique — en 40 secondes, sans bruit.
+    </p>
+    <div class="flex flex-wrap items-center gap-4 reveal in" style="margin-top:1.2rem">
+      <a href="#analyse" class="btn btn-primary btn-lg">
+        Tester une adresse
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="btn btn-ghost btn-lg js-demo-open">Demander une démonstration</button>
+    </div>
+    <p class="text-muted-2 mt-6" style="font-size:.8rem">Sans inscription · 3 adresses de démonstration incluses · Résultat en moins d'une minute</p>
+  </section>
+
+  <!-- ================= LOGOS CONFIANCE ================= -->
+  <section class="container-x" style="padding:0 2rem">
+    <div class="trust-strip" aria-label="Entreprises clientes">
+      <span style="padding:0 1rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)">Clientèle</span>
+      <span class="trust-logo">Aurum Exchange</span>
+      <span class="trust-logo">Klivr</span>
+      <span class="trust-logo">Nordis</span>
+      <span class="trust-logo">Payfab</span>
+      <span class="trust-logo">CobaltPay</span>
+      <span class="trust-logo">SettleX</span>
+    </div>
+  </section>
+
+  <!-- ================= MOTEUR D'ANALYSE (#analyse) ================= -->
+  <section id="analyse" class="section-lg" style="scroll-margin-top:90px">
+    <div class="container-x" style="max-width:900px">
+      <span class="section-tag reveal in">Moteur d'analyse en direct</span>
+      <h2 class="h2 reveal in" style="margin-top:.7rem">Collez une adresse.<br>Obtenez une trajectoire complète.</h2>
+      <p class="text-muted reveal in" style="margin-top:1.1rem;font-size:1rem;line-height:1.75">
+        Quelle que soit la chaîne, lancez l'analyse et observez la reconstruction multi-sauts,
+        le croisement des signalements et le score de sécurité de l'adresse.
+      </p>
+
+      <form id="search-form" novalidate class="reveal in" style="margin-top:2.4rem">
+        <div class="search-shell">
+          <div class="search-box" id="search-box">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="search-input" type="text" spellcheck="false" autocomplete="off"
+              placeholder="bc1q… · 0x… · Solana… — collez votre adresse ici" aria-label="Adresse à analyser" />
+            <button type="button" id="search-clear" class="search-clear" aria-label="Effacer">✕</button>
+            <button type="submit" class="btn btn-primary btn-sm">Analyser</button>
+          </div>
+          <p class="search-error" id="search-err"><span>Erreur de validation.</span></p>
+        </div>
+      </form>
+
+      <div class="demo-chips" aria-label="Adresses de démonstration">
+        <button class="demo-chip" data-addr="0xB9f52Ee77C4C82bc0F2d1e48d2aE7c19E903a5b4" data-net="ETH">
+          <span class="c-dot" style="background:var(--green)"></span>Adresse légitime
+          <span class="c-addr">0xB9f5…a5b4</span>
+        </button>
+        <button class="demo-chip" data-addr="0xDdF62F3aC8b4eA7d9C15A6b2F0e84C713f9bAc61" data-net="ETH">
+          <span class="c-dot" style="background:var(--amber)"></span>Signalée — Phishing
+          <span class="c-addr">0xDdF6…c61</span>
+        </button>
+        <button class="demo-chip" data-addr="bc1qkvc6mj5mn4e2wj5w5fnc8v9k3z4d5r6t7y8u9a" data-net="BTC">
+          <span class="c-dot" style="background:var(--red)"></span>Fonds volés — Hack
+          <span class="c-addr">bc1qkv…8u9a</span>
+        </button>
+      </div>
+      <p class="text-muted-2" style="margin-top:1.2rem;font-size:.76rem">
+        Analyse en 6 étapes vérifiables : format → colonisation multi-sauts → smart contracts → signalements → sanctions → score.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= KPI (#chiffres) ================= -->
+  <section id="chiffres" class="section-lg" style="scroll-margin-top:90px">
+    <div class="container-x">
+      <div class="section-tag mb-6 reveal">Indicateurs clés</div>
+      <div class="data-strip reveal">
+        <div class="data-cell">
+          <div class="stat-label">Fonds tracés depuis 2021</div>
+          <div class="kpi-value"><span data-count="15.4" data-dec="1">0</span> Mds €</div>
+          <div class="data-hint">sur Bitcoin, Ethereum &amp; Solana</div>
+        </div>
+        <div class="data-cell">
+          <div class="stat-label">Signalements communautaires &amp; pro</div>
+          <div class="kpi-value"><span data-count="2100000" data-dec="0">0</span></div>
+          <div class="data-hint">vérifiés par nos analystes</div>
+        </div>
+        <div class="data-cell">
+          <div class="stat-label">Taux de précision du score</div>
+          <div class="kpi-value"><span data-count="99.98" data-dec="2">0</span> %</div>
+          <div class="data-hint">sur 1,2 million d'adresses contrôles</div>
+        </div>
+        <div class="data-cell">
+          <div class="stat-label">Pays couverts par la veille</div>
+          <div class="kpi-value"><span data-count="187" data-dec="0">0</span></div>
+          <div class="data-hint">juridictions · liste de sanctions croisée</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FONCTIONNALITÉS (#securite) ================= -->
+  <section id="securite" class="section-xl" style="scroll-margin-top:90px">
+    <div class="container-x asym">
+      <aside class="asym-side reveal">
+        <span class="section-tag">Couverture produit</span>
+        <h2 class="h2" style="margin-top:.7rem">Une suite complète pour votre conformité</h2>
+        <nav class="sticky-nav" aria-label="Sommaire de la section">
+          <a href="#scoring" class="sticky-link">01 · Scoring dynamique</a>
+          <a href="#flux" class="sticky-link">02 · Cartographie des flux</a>
+          <a href="#juridique" class="sticky-link">03 · Volet réglementaire</a>
+          <a href="#integration" class="sticky-link">04 · Intégrations</a>
+        </nav>
+      </aside>
+
+      <div class="asym-main reveal">
+        <p class="lede" style="max-width:640px">
+          De l'analyse unitaire à la surveillance continue, chaque brique s'intègre à vos
+          processus existants — CRM, exchanges, outils de gestion de risque.
+        </p>
+
+        <div id="scoring" style="padding-top:1rem">
+          <p class="section-tag">Scoring dynamique</p>
+          <div class="cols-2" style="margin-top:.6rem">
+            <ul class="rule-list">
+              <li><span class="rl-index">A1</span><div><div class="rl-title">Fonds volés</div><div class="rl-desc">Traçage des adresses en contact avec des exploits récents, via indexation continue et corrélation d'incidents.</div></div><span class="rl-meta">W/ par adresse</span></li>
+              <li><span class="rl-index">A2</span><div><div class="rl-title">Mixage &amp; malware</div><div class="rl-desc">Détection des services de mélange, des jumpers et des signatures de logiciels malveillants.</div></div><span class="rl-meta">48 dimensions</span></li>
+            </ul>
+            <ul class="rule-list">
+              <li><span class="rl-index">A3</span><div><div class="rl-title">Arnaques &amp; phishing</div><div class="rl-desc">Croisement en temps réel avec la base partagée de signalements vérifiés par les analystes.</div></div><span class="rl-meta">Base live</span></li>
+              <li><span class="rl-index">A4</span><div><div class="rl-title">Sanctions &amp; OFAC</div><div class="rl-desc">Corrélation automatique avec les listes OFAC, UE et nationales ; frappes de gel signalées aux partenaires.</div></div><span class="rl-meta">52 listes</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="flux" style="padding-top:2.5rem">
+          <p class="section-tag">Cartographie des flux</p>
+          <div class="cols-2" style="margin-top:.6rem">
+            <ul class="rule-list">
+              <li><span class="rl-index">B1</span><div><div class="rl-title">Provenance multi-sauts</div><div class="rl-desc">Reconstruction des origines des fonds sur deux sauts et plus, avec adresses étiquetées en clair.</div></div><span class="rl-meta">Profondeur 2+</span></li>
+              <li><span class="rl-index">B2</span><div><div class="rl-title">Étiquetage des entités</div><div class="rl-desc">Exchanges, ponts, protocoles DeFi et services à risque identifiés par la base de labels croisée.</div></div><span class="rl-meta">Europe / OCDE</span></li>
+            </ul>
+            <ul class="rule-list">
+              <li><span class="rl-index">B3</span><div><div class="rl-title">Destinations &amp; sorties</div><div class="rl-desc">Cartographie des sorties pour mesurer le risque de fuite vers des plateformes sans KYC.</div></div><span class="rl-meta">Flux sortants</span></li>
+              <li><span class="rl-index">B4</span><div><div class="rl-title">Journal de transactions</div><div class="rl-desc">Logbook chronologique montant par montant, filtrable par entité, direction et risque.</div></div><span class="rl-meta">Historique</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="juridique" style="padding-top:2.5rem">
+          <p class="section-tag">Volet réglementaire</p>
+          <div class="cols-2" style="margin-top:.6rem">
+            <ul class="rule-list">
+              <li><span class="rl-index">C1</span><div><div class="rl-title">Travel Rule &amp; LCB-FT</div><div class="rl-desc">Screening pré-transaction conforme VASP / FATF, avec piste d'audit opposable.</div></div><span class="rl-meta">VASP / FATF</span></li>
+              <li><span class="rl-index">C2</span><div><div class="rl-title">Rapports horodatés</div><div class="rl-desc">Export PDF signé et horodaté, formaté pour vos dossiers de gel, de refus et de déclaration.</div></div><span class="rl-meta">Audit</span></li>
+            </ul>
+            <ul class="rule-list">
+              <li><span class="rl-index">C3</span><div><div class="rl-title">Registre des décisions</div><div class="rl-desc">Consignation de chaque décision de gel, de refus ou de levée, avec justifications et source des données.</div></div><span class="rl-meta">Traçabilité</span></li>
+              <li><span class="rl-index">C4</span><div><div class="rl-title">Signalements B2B sourcés</div><div class="rl-desc">Déclarez une adresse frauduleuse : chaque rapport est vérifié sous 2 h par nos analystes puis propagé.</div></div><span class="rl-meta">Réseau</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="integration" style="padding-top:2.5rem">
+          <p class="section-tag">Intégrations</p>
+          <div class="cols-2" style="margin-top:.6rem">
+            <ul class="rule-list">
+              <li><span class="rl-index">D1</span><div><div class="rl-title">API REST de scoring</div><div class="rl-desc">Score en ligne en quelques millisecondes ; SDK Python, Node.js et Go inclus.</div></div><span class="rl-meta">Temps réel</span></li>
+              <li><span class="rl-index">D2</span><div><div class="rl-title">Lots &amp; webhooks</div><div class="rl-desc">Scoring asynchrone par batch de 100 adresses, rappel webhook à la fin de chaque analyse.</div></div><span class="rl-meta">Asynchrone</span></li>
+            </ul>
+            <ul class="rule-list">
+              <li><span class="rl-index">D3</span><div><div class="rl-title">Alertes temps réel</div><div class="rl-desc">Notifications Slack, e-mail ou MS Teams dès qu'une adresse surveillée touche une entité à risque.</div></div><span class="rl-meta">Webhook</span></li>
+              <li><span class="rl-index">D4</span><div><div class="rl-title">Enrichissement CRM/SIEM</div><div class="rl-desc">Alimentation automatique de vos outils de gestion de risque et des SIEM partenaires.</div></div><span class="rl-meta">Connexions</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESSUS ================= -->
+  <section class="section-xl" style="border-top:1px solid var(--line)">
+    <div class="container-x" style="max-width:980px">
+      <span class="section-tag">Méthode</span>
+      <h2 class="h2 reveal" style="margin-top:.7rem">De l'adresse au rapport d'audit</h2>
+      <ul class="rule-list reveal" style="margin-top:1.6rem">
+        <li>
+          <span class="rl-index" style="font-size:1.05rem">01</span>
+          <div><div class="rl-title">Scoring immédiat</div><div class="rl-desc">Le moteur interroge la chaîne, croise les bases de signalements et évalue chaque dimension de risque pour produire un score de 0 à 100.</div></div>
+          <span class="rl-meta">Analyse</span>
+        </li>
+        <li>
+          <span class="rl-index" style="font-size:1.05rem">02</span>
+          <div><div class="rl-title">Journal &amp; exploration</div><div class="rl-desc">Parcourez provenance et destinations des fonds, saut par saut, et isolez chaque entité pour examiner ses transactions.</div></div>
+          <span class="rl-meta">Investigation</span>
+        </li>
+        <li>
+          <span class="rl-index" style="font-size:1.05rem">03</span>
+          <div><div class="rl-title">Prévention continue</div><div class="rl-desc">Déclarez les arnaques, recevez des alertes en temps réel et exportez les rapports pour vos processus de gel, de refus et de déclaration.</div></div>
+          <span class="rl-meta">Action</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CONFORMITÉ ================= -->
+  <section class="section-xl" style="border-top:1px solid var(--line)">
+    <div class="container-x asym">
+      <aside class="asym-side reveal">
+        <span class="section-tag">Conformité intégrée</span>
+        <h2 class="h2" style="margin-top:.7rem">Conçu pour l'audit,<br>pas pour l'affichage</h2>
+      </aside>
+      <div class="asym-main reveal">
+        <p class="lede" style="max-width:640px;padding-bottom:2rem">
+          CleanChain répond aux exigences de vos régulateurs : piste d'audit traçable,
+          horodatage signé, traçabilité des sources et export formaté pour vos rapports LCB-FT,
+          Travel Rule et vos dossiers de gel.
+        </p>
+        <div class="grid gap-6 items-start" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+          <div>
+            <ul class="rule-list">
+              <li><span class="rl-index">✓</span><div><div class="rl-title">Piste d'audit complète</div><div class="rl-desc">Qui, quand, quelles données — chaque consultation horodatée.</div></div></li>
+              <li><span class="rl-index">✓</span><div><div class="rl-title">Rapports signés</div><div class="rl-desc">PDF horodatés et exportables vers votre GED.</div></div></li>
+              <li><span class="rl-index">✓</span><div><div class="rl-title">Hébergement UE</div><div class="rl-desc">Chiffrement AES-256 et clefs rotatives.</div></div></li>
+              <li><span class="rl-index">✓</span><div><div class="rl-title">Registre des décisions</div><div class="rl-desc">Gel, refus, levées — consignés avec justifications.</div></div></li>
+            </ul>
+          </div>
+          <div class="panel p-7" style="background:var(--surface-2)">
+            <div class="flex justify-between items-baseline mb-5">
+              <span class="stat-label">Couverture de surveillance</span>
+              <span class="badge badge-green"><span class="dot dot-pulse"></span>Continue</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1.35rem">
+              <div>
+                <div class="flex justify-between mb-2" style="font-size:.82rem"><span class="text-muted">Bitcoin — 3,1 M d'adresses indexées</span><span class="mono nums" style="font-weight:600;color:var(--green)">99,99 %</span></div>
+                <div class="risk-meter"><span style="width:99.99%;background:var(--green)"></span></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2" style="font-size:.82rem"><span class="text-muted">Ethereum — 7,8 M d'adresses indexées</span><span class="mono nums" style="font-weight:600;color:var(--green)">99,97 %</span></div>
+                <div class="risk-meter"><span style="width:99.97%;background:var(--green)"></span></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2" style="font-size:.82rem"><span class="text-muted">Solana — 1,4 M d'adresses indexées</span><span class="mono nums" style="font-weight:600;color:var(--green)">99,95 %</span></div>
+                <div class="risk-meter"><span style="width:99.95%;background:var(--green)"></span></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2" style="font-size:.82rem"><span class="text-muted">Entités sanctionnées couvertes</span><span class="nums mono" style="font-weight:600;color:var(--amber)">52 listes</span></div>
+                <div class="risk-meter"><span style="width:88%;background:var(--amber)"></span></div>
+              </div>
+            </div>
+            <div class="divider my-6"></div>
+            <p class="stat-label">Temps moyen de détection d'un nouveau schéma d'arnaque</p>
+            <p class="kpi-value" style="font-size:1.9rem"><span data-count="42" data-dec="0">0</span> min</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TÉMOIGNAGES (#temoignages) ================= -->
+  <section id="temoignages" class="section-xl" style="scroll-margin-top:90px;border-top:1px solid var(--line)">
+    <div class="container-x">
+      <span class="section-tag reveal">Références</span>
+      <h2 class="h2 reveal" style="margin-top:.7rem">Ils ont validé CleanChain en production</h2>
+      <ul class="quote-list reveal" style="margin-top:2rem">
+        <li>
+          <blockquote>Depuis l'intégration de l'API, notre service conformité bloque en moyenne 380 tentatives de dépôts frauduleux par mois. Le graphe multi-sauts nous a fait gagner des journées d'investigation.</blockquote>
+          <div class="quote-by"><b>Nadia Driss</b> — CISO, Aurum Exchange</div>
+        </li>
+        <li>
+          <blockquote>La base de signalements B2B est notre première ligne de défense : un rapport transmis à 19 h est analysé et propagé auprès des partenaires avant le lendemain matin.</blockquote>
+          <div class="quote-by"><b>Paul Chenu</b> — Directeur Conformité, Payfab</div>
+        </li>
+        <li>
+          <blockquote>Nous avons éliminé 96 % des faux positifs de notre flux de vérification. Les alertes webhooks s'intègrent directement à notre SIEM, et le SLA 99,99 % tient toutes ses promesses.</blockquote>
+          <div class="quote-by"><b>Sofia Kante</b> — VP Risk, CobaltPay</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="section-lg" style="border-top:1px solid var(--line)">
+    <div class="container-x">
+      <div class="cta-band reveal">
+        <span class="section-tag" style="margin-bottom:.5rem">Passer à l'échelle</span>
+        <h2 class="h2">Sécurisez chaque entrée de fonds.<br>Avant l'incident.</h2>
+        <p class="text-muted mx-auto mt-4" style="max-width:560px;font-size:.98rem;line-height:1.7">
+          Un audit gratuit de vos flux sous 24 h : nos analystes cartographient vos risques
+          exposés et vous remettent un plan d'action conçu pour votre volume.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3.5 mt-8">
+          <a href="#analyse" class="btn btn-primary">Analyser une adresse maintenant</a>
+          <button class="btn btn-ghost js-demo-open">Planifier l'audit gratuit</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OVERLAY D'ANALYSE (terminal) ================= -->
+  <div class="overlay" id="analysis-overlay" role="dialog" aria-modal="true" aria-label="Analyse en cours">
+    <div class="overlay-card">
+      <div class="ov-head">
+        <div class="ov-cmd"><b>analyste@cleanchain</b> — moteur de scoring v4</div>
+        <span class="an-status" id="an-status">Analyse en cours…</span>
+      </div>
+      <p class="stat-label" style="margin-bottom:.35rem">Cible</p>
+      <div class="an-addr" id="an-address">…</div>
+      <p class="mono" style="font-size:.72rem;color:var(--text-3);margin-top:.3rem">Réseau détecté : <span id="an-network" style="color:var(--text-2)">—</span></p>
+      <div class="progress-shell"><div class="progress-fill" id="an-progress"></div></div>
+      <div class="an-steps" id="an-steps"></div>
+      <p style="margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--text-3)">Opération journalisée · données utilisées : chaîne, labels, signalements vérifiés, listes de sanctions.</p>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>

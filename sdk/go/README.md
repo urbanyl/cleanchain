@@ -6,6 +6,10 @@ blockchain (Bitcoin, Ethereum, Solana). Aucune dépendance externe.
 ## Installation
 
 ```bash
+# Pendant l'indexation par proxy.golang.org (quelques minutes) :
+go get github.com/urbanyl/cleanchain/sdk/go@v1.0.0
+
+# Après indexation (indiquera "v1.0.0" automatiquement) :
 go get github.com/urbanyl/cleanchain/sdk/go@latest
 ```
 
